@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block title %}Meus endereços{% endblock %}
+
+{% block content %}
+  <h1>Meus endereços</h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+         <th>ID</th>
+         <th>Endereço</th>
+         <th>Complemento</th>
+         <th>Cidade</th>
+         <th>Estado</th>
+         <th>Ações</th> 
+      </tr>
+      <tbody>
+        {% for address in addresses %}
+          <tr>
+            <td>{{ address.id }}</td>
+            <td>{{ address.address }}</td>
+            <td>{{ address.address_complement_normalized }}</td>
+            <td>{{ address.city }}</td>
+            <td>{{ address.state }}</td>
+            <td>
+              Ação Surpresa
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </thead>
+  </table>
+{% endblock %}
