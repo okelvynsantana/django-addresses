@@ -3,8 +3,14 @@
 {% block content %}
   <div class="container">
     <h2 style="margin-top:20px;">Atualizar endereço</h2>
-    <form action="/addresses/{{ address.id }}/update/" method="POST">
-      {% include 'my_app/address/form.html' %}  
+    <form 
+    action="/addresses/create/" 
+    method="POST"
+    {% if form_submitted %}
+    class="was-validated"
+    {% endif %}
+    >
+      {% include 'my_app/address/address_form.html' %}
       <button type="submit" class="btn btn-success">Salvar</button>
     </form>
   </div>

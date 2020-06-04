@@ -1,9 +1,18 @@
 {% extends 'layout.html' %}
 {% block title %}Cadastrar endereço {% endblock %}
 {% block content %}
-  <div class="container">
-    <h2 style="margin-top:20px;">Cadastrar endereço</h2>
-    <form action="/addresses/create" method="POST">
-      {% include 'my_app/address/form.html' %}  
-  </div>
+<div class="container">
+  <h2 style="margin-top:20px;">Cadastrar endereço</h2>
+  <form 
+  action="/addresses/create/" 
+  method="POST"
+  {% if form_submitted %}
+  class="was-validated"
+  {% endif %}
+  >
+    {% include 'my_app/address/address_form.html' %}
+    <button type="submit" class="btn btn-success">Salvar</button>
+  </form>
+</div>
+
 {% endblock %}
