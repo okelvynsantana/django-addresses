@@ -1,54 +1,15 @@
 from django import forms
-from .models import STATE_CHOICES
+from .models import Address
 
 
-class AddressForm (forms.Form):
-    address = forms.CharField(
-        max_length=255,
-        label='Endereço',
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Ex: Avenida Paulista, 1000'
-            })
-    )
-    address_complement = forms.CharField(
-        max_length=30,
-        required=False,
-        label='Complemento',
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Ex: Bloco 10 Apto 44'
-            }
-        )
-    )
-    city = forms.CharField(
-        max_length=255,
-        label='Cidade',
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Ex: São Paulo'
-            }
-        )
-    )
-    state = forms.ChoiceField(
-        choices=STATE_CHOICES,
-        label='Estado',
-        widget=forms.Select(
-            attrs={
-              'class': 'form-control'
-            }
-        )
-    )
-    country = forms.CharField(
-        max_length=255,
-        label='País',
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Ex: Brasil'
-            }
-        )
-    )
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        widgets = {
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'address_complement': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'state': forms.Select(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={'class': 'form-control'})
+        }
+        fields = ('address', 'address_complement', 'city', 'state', 'country')

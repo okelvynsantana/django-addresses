@@ -5,8 +5,9 @@ Login
 
 {% block content %}
 <div class="container">
-  <h3>Login</h3>
-  {% if message %}
+  <h3 class="d-flex justify-content-center" style="margin-top: 30px; font-weight: bold">Login</h3>
+  <div >
+    {% if message %}
     <div class="alert alert-danger">{{ message }}</div>
   {% endif %}
   <form action="/login/" method="POST">
@@ -21,6 +22,7 @@ Login
     </div>
     <button class="btn btn-success"type="submit">Entrar</button>
   </form>
+  </div>
   
 </div>
 {% endblock %}

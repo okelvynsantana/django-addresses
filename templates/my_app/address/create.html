@@ -4,12 +4,13 @@
 <div class="container">
   <h2 style="margin-top:20px;">Cadastrar endereço</h2>
   <form 
-  action="/addresses/create/" 
+  action="{% url 'address_create' %}" 
   method="POST"
   {% if form_submitted %}
   class="was-validated"
   {% endif %}
   >
+    {% csrf_token %}
     {% include 'my_app/address/address_form.html' %}
     <button type="submit" class="btn btn-success">Salvar</button>
   </form>

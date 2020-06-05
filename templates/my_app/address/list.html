@@ -2,31 +2,41 @@
 {% block title %}Meus endereços{% endblock %}
 
 {% block content %}
-  <h1>Meus endereços</h1>
-  <table class="table table-striped">
+  <h1 class="d-flex justify-content-center" style="margin-top: 30px; font-weight: bold">
+    Meus endereços
+  </h1>
+  {% if not addresses %}
+    <a href="{% url 'address_create' %}" class="btn btn-primary ">Criar Endereço</a>  
+  
+  {% else %}
+  <table class="table table-striped" style="margin-top: 30px;">
     <thead>
       <tr>
-         <th>ID</th>
          <th>Endereço</th>
          <th>Complemento</th>
          <th>Cidade</th>
          <th>Estado</th>
+         <th>País</th>
          <th>Ações</th> 
       </tr>
       <tbody>
         {% for address in addresses %}
           <tr>
-            <td>{{ address.id }}</td>
             <td>{{ address.address }}</td>
             <td>{{ address.address_complement_normalized }}</td>
             <td>{{ address.city }}</td>
             <td>{{ address.state }}</td>
+            <td>{{ address.country }}</td>
             <td>
-              <a href="/addresses/{{ address.id }}/update/">Editar<a> | 
+              <a href="{% url 'address_update' address.id %}" class="btn btn-primary ">Editar</a>  
+              <a href="{% url 'address_destroy' address.id %}"class="btn btn-danger">Apagar</a> 
             </td>
           </tr>
         {% endfor %}
       </tbody>
     </thead>
   </table>
+
+  {% endif %}
+  
 {% endblock %}
