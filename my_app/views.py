@@ -1,34 +1,48 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
-from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
+from django.views.generic import View, RedirectView
 from .forms import AddressForm
 from .models import Address
+from django.utils.decorators import method_decorator
 
 
 def home(request):
     return redirect(reverse('address_list'))
 
 
-def login(request: HttpRequest):
-    if request.method == 'GET':
-        return render(request, 'my_app/login.html')
-    username = request.POST.get('username')
-    password = request.POST.get('password')
+class LoginView(View):
+    template_name = 'my_app/login.html'
 
-    user = authenticate(username=username, password=password)
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
 
-    if user:
-        django_login(request, user)
-        return redirect(reverse('address_list'))
-    message = 'Usuário ou senha inválidos.'
-    return render(request, 'my_app/login.html', {'message': message})
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            django_login(request, user)
+            return redirect(reverse('address_list'))
+        message = 'Usuário ou senha inválidos.'
+        return render(request, self.template_name, {'message': message})
 
 
-@login_required(login_url='login')
-def logout(request):
-    django_logout(request)
-    return redirect(reverse('login'))
+class LogoutRedirectView(RedirectView):
+    url = '/login/'
+
+    @method_decorator(login_required(login_url='/login'))
+    def get(self, request, *args, **kwargs):
+        django_logout(request)
+        return super().get(request, *args, **kwargs)
+
+
+# @login_required(login_url='login')
+# def logout(request):
+#     django_logout(request)
+#     return redirect(reverse('login'))
 
 
 @login_required(login_url='login')
@@ -84,4 +98,6 @@ def address_destroy(request, id):
     else:
         address.delete()
         return redirect(reverse('address_list'))
-    return render(request, 'my_app/address/destroy.html', {'address': address, 'form': form})
+    return render(request, 'my_app/address/destroy.html', {
+        'address': address, 'form': form
+    })
