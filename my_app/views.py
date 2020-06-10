@@ -39,12 +39,6 @@ class LogoutRedirectView(RedirectView):
         return super().get(request, *args, **kwargs)
 
 
-# @login_required(login_url='login')
-# def logout(request):
-#     django_logout(request)
-#     return redirect(reverse('login'))
-
-
 @login_required(login_url='login')
 def address_list(request):
     addresses = Address.objects.all()
